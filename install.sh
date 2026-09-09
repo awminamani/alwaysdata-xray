@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # ==========================================
-# Alwaysdata Xray installer
+# AlwaysData Xray installer
 # ==========================================
 
 XRAY_DIR="$HOME/xray"
@@ -13,7 +13,7 @@ WS_PATH="${XRAY_PATH:-/xray}"
 
 echo
 echo "=========================================="
-echo " Alwaysdata Xray installer"
+echo " AlwaysData Xray installer"
 echo "=========================================="
 echo
 
@@ -42,7 +42,7 @@ case "$ARCH" in
 esac
 
 # Check required commands
-for cmd in curl tar uuidgen; do
+for cmd in curl uuidgen unzip grep sed head; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "ERROR: Missing command: $cmd"
         exit 1
@@ -84,11 +84,12 @@ echo "[3/6] Installing Xray..."
 
 rm -f "$XRAY_DIR/xray"
 
-if command -v unzip >/dev/null 2>&1; then
-    unzip -q "$TMP/xray.zip" -d "$TMP/xray"
-else
-    echo "ERROR: unzip is required."
-    echo "Install unzip and run the installer again."
+mkdir -p "$TMP/xray"
+
+unzip -q "$TMP/xray.zip" -d "$TMP/xray"
+
+if [ ! -f "$TMP/xray/xray" ]; then
+    echo "ERROR: Xray binary was not found in the downloaded archive."
     exit 1
 fi
 
@@ -138,6 +139,7 @@ EOF
 
 echo
 echo "Testing configuration..."
+
 "$XRAY_DIR/xray" run -test -config "$CONFIG"
 
 echo "[6/6] Installing homepage..."
@@ -150,23 +152,31 @@ cat > "$HOME/www/index.html" <<'HTML'
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Limo — Personal Services</title>
+
+  <title>Personal Web Services</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       min-height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
       background: #080a10;
       color: #f4f7ff;
     }
 
     body {
+      min-height: 100vh;
       display: grid;
       place-items: center;
       padding: 24px;
@@ -182,27 +192,110 @@ cat > "$HOME/www/index.html" <<'HTML'
       backdrop-filter: blur(18px);
     }
 
+    .status {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 22px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: #b9c1d3;
+      font-size: 14px;
+    }
+
     .dot {
-      width: 10px;
-      height: 10px;
-      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-right: 8px;
       border-radius: 50%;
       background: #62e6a5;
       box-shadow: 0 0 18px rgba(98,230,165,.6);
-      margin-right: 8px;
     }
 
     h1 {
       margin: 0 0 12px;
       font-size: clamp(36px, 7vw, 64px);
       letter-spacing: -2px;
+      line-height: 1;
     }
 
     p {
+      margin: 0;
       color: #aeb6c8;
       line-height: 1.7;
       font-size: 17px;
     }
 
-    .status {
-      margin-top: 
+    footer {
+      margin-top: 28px;
+      color: #697286;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+
+    <div class="status">
+      <span class="dot"></span>
+      Online
+    </div>
+
+    <h1>Personal Web Services</h1>
+
+    <p>
+      A small self-hosted environment for personal projects,
+      experiments, and web services.
+    </p>
+
+    <footer>
+      Powered by AlwaysData
+    </footer>
+
+  </main>
+</body>
+</html>
+HTML
+
+echo
+echo "=========================================="
+echo " Installation completed successfully!"
+echo "=========================================="
+echo
+echo "Xray directory:"
+echo "  $XRAY_DIR"
+echo
+echo "Configuration:"
+echo "  $CONFIG"
+echo
+echo "Homepage:"
+echo "  $HOME/www/index.html"
+echo
+echo "VLESS settings:"
+echo "  Address: YOUR_DOMAIN.alwaysdata.net"
+echo "  Port: 443"
+echo "  UUID: $UUID"
+echo "  Network: WebSocket"
+echo "  Path: $WS_PATH"
+echo "  TLS: enabled"
+echo
+echo "AlwaysData Service:"
+echo "  Command: $XRAY_DIR/xray run -config $CONFIG"
+echo "  Working directory: $XRAY_DIR/"
+echo "  Port: $PORT"
+echo
+echo "Reverse Proxy:"
+echo "  http://services-YOUR_ACCOUNT.alwaysdata.net:$PORT"
+echo
+echo "IMPORTANT:"
+echo "  The Service and Reverse Proxy must be configured"
+echo "  manually in the AlwaysData dashboard."
+echo
