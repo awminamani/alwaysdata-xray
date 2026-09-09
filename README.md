@@ -92,11 +92,11 @@ Replace the values with the SSH information shown in your AlwaysData dashboard.
 
 You can clone this repository:
 
-git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/awminamani/alwaysdata-xray.git
 
 Enter the directory:
 
-cd YOUR_REPOSITORY
+cd alwaysdata-xray
 
 Make the installer executable:
 
@@ -112,7 +112,7 @@ Alternative: download the installer directly
 
 If you don't want to clone the entire repository:
 
-curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY/main/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/awminamani/alwaysdata-xray/main/install.sh -o install.sh
 
 Then:
 
