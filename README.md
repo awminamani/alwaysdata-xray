@@ -92,19 +92,19 @@ Replace the values with the SSH information shown in your AlwaysData dashboard.
 
 You can clone this repository:
 
-git clone https://github.com/awminamani/alwaysdata-xray.git
+```git clone https://github.com/awminamani/alwaysdata-xray.git```
 
 Enter the directory:
 
-cd alwaysdata-xray
+```cd alwaysdata-xray```
 
 Make the installer executable:
 
-chmod +x install.sh
+```chmod +x install.sh```
 
 Run it:
 
-./install.sh
+```./install.sh```
 
 ---
 
@@ -112,12 +112,12 @@ Alternative: download the installer directly
 
 If you don't want to clone the entire repository:
 
-curl -fsSL https://raw.githubusercontent.com/awminamani/alwaysdata-xray/main/install.sh -o install.sh
+```curl -fsSL https://raw.githubusercontent.com/awminamani/alwaysdata-xray/main/install.sh -o install.sh```
 
 Then:
 
-chmod +x install.sh
-./install.sh
+```chmod +x install.sh```
+```./install.sh```
 
 «Always inspect scripts before running them on an account you care about.»
 
