@@ -1,6 +1,6 @@
 AlwaysData Xray Installer
 
-A simple installer for running Xray-core on an "AlwaysData" (https://www.alwaysdata.com/) account using an AlwaysData Service and Reverse Proxy.
+A simple installer for running Xray-core on an using an [AlwaysData](https://www.alwaysdata.com/) account account using an AlwaysData Service and Reverse Proxy.
 
 The installer:
 
